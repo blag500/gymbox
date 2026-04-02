@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GYM BOX — Социален Павилион за Здраве</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,600;0,700;0,800;0,900;1,300&family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#050C07;
+  --forest-mid:#0D1F10;
+  --forest-deep:#162B19;
+  --green:#3DBA7C;
+  --green-dim:#2D9460;
+  --green-faint:rgba(61,186,124,0.12);
+  --green-glow:rgba(61,186,124,0.06);
+  --paper:#F6F3EC;
+  --paper-warm:#EDE9DF;
+  --cream:#FAFAF6;
+  --ink:#131A14;
+  --ink-mid:#2A3B2C;
+  --forest-accent:#1A4A2A;
+  --text-light:#D4E8D8;
+  --text-muted-dark:rgba(212,232,216,0.45);
+  --border-dark:rgba(61,186,124,0.15);
+  --border-light:#D5D0C5;
+  --font-display:'Barlow Condensed',sans-serif;
+  --font-serif:'Cormorant Garant',serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--forest);color:var(--text-light);font-family:var(--font-body);font-size:15px;line-height:1.65;overflow-x:hidden}
+
+/* ── GRID OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(61,186,124,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(61,186,124,0.04) 1px,transparent 1px);
+  background-size:60px 60px;pointer-events:none;z-index:0;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:0 6vw;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:280px;
+  background:linear-gradient(to bottom,transparent,var(--forest));
+  pointer-events:none;z-index:2;
+}
+
+/* Glass panel lines */
+.glass-lines{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  display:flex;gap:0;
+}
+.glass-line{flex:1;border-right:1px solid rgba(61,186,124,0.07)}
+.glass-line:last-child{border-right:none}
+
+/* Horizon glow */
+.hero-glow{
+  position:absolute;bottom:15%;left:50%;transform:translateX(-50%);
+  width:70vw;height:200px;
+  background:radial-gradient(ellipse at center,rgba(61,186,124,0.12) 0%,transparent 70%);
+  pointer-events:none;z-index:1;
+}
+
+.hero-nav{
+  position:relative;z-index:3;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:32px 0 28px;
+  border-bottom:1px solid var(--border-dark);
+}
+.hero-logo{font-family:var(--font-display);font-size:22px;font-weight:700;letter-spacing:0.12em;color:var(--green);text-transform:uppercase}
+.hero-badge{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;
+  color:var(--green);text-transform:uppercase;
+  border:1px solid var(--border-dark);padding:6px 14px;border-radius:2px;
+  background:var(--green-faint);
+}
+
+.hero-main{
+  position:relative;z-index:3;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:8vh 0 6vh;
+}
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.2em;
+  color:var(--green);text-transform:uppercase;margin-bottom:28px;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--green)}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(80px,14vw,180px);
+  font-weight:900;line-height:0.88;
+  letter-spacing:-0.01em;
+  color:var(--text-light);
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+.hero-title-outline{
+  -webkit-text-stroke:1px rgba(212,232,216,0.3);
+  color:transparent;
+}
+.hero-tagline{
+  font-family:var(--font-serif);font-size:clamp(18px,2.5vw,28px);
+  font-style:italic;font-weight:300;color:rgba(212,232,216,0.6);
+  margin:24px 0 48px;max-width:560px;line-height:1.4;
+}
+.hero-cta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn-primary{
+  font-family:var(--font-display);font-size:14px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;
+  background:var(--green);color:var(--forest);
+  padding:14px 32px;border:none;cursor:pointer;
+  transition:all 0.2s ease;display:inline-block;
+}
+.btn-primary:hover{background:var(--green-dim)}
+.btn-ghost{
+  font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--text-muted-dark);
+  text-decoration:none;display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(212,232,216,0.15);padding-bottom:2px;
+  transition:color 0.2s;
+}
+.btn-ghost:hover{color:var(--text-light)}
+.btn-ghost::after{content:'↓'}
+
+.hero-bottom{
+  position:relative;z-index:3;
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding:0 0 36px;border-top:1px solid var(--border-dark);padding-top:24px;
+}
+.hero-stat{text-align:center}
+.hero-stat-num{
+  font-family:var(--font-display);font-size:clamp(28px,4vw,42px);
+  font-weight:700;color:var(--green);letter-spacing:-0.02em;line-height:1;
+}
+.hero-stat-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted-dark);margin-top:4px}
+
+/* ── TRANSITION BAND ── */
+.band{
+  position:relative;z-index:1;
+  background:var(--forest-deep);
+  border-top:1px solid var(--border-dark);
+  border-bottom:1px solid var(--border-dark);
+  padding:20px 6vw;overflow:hidden;
+}
+.band-inner{display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.band-inner::-webkit-scrollbar{display:none}
+.band-item{
+  flex:1;min-width:180px;padding:16px 24px;
+  border-right:1px solid var(--border-dark);
+  display:flex;flex-direction:column;gap:4px;
+}
+.band-item:last-child{border-right:none}
+.band-item-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted-dark)}
+.band-item-value{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--text-light);letter-spacing:0.02em}
+.band-item-sub{font-size:11px;color:var(--text-muted-dark)}
+
+/* ── LIGHT SECTION ── */
+.light{background:var(--paper);color:var(--ink)}
+
+/* ── MANIFESTO ── */
+.manifesto{padding:100px 6vw;max-width:1200px;margin:0 auto}
+.manifesto-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start}
+.manifesto-label{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--forest-accent);
+  margin-bottom:20px;display:flex;align-items:center;gap:10px;
+}
+.manifesto-label::before{content:'';display:block;width:24px;height:1px;background:var(--forest-accent)}
+.manifesto-left h2{
+  font-family:var(--font-serif);font-size:clamp(32px,4vw,52px);
+  font-weight:300;line-height:1.15;color:var(--ink);
+  letter-spacing:-0.01em;
+}
+.manifesto-left h2 em{font-style:italic;color:var(--forest-accent)}
+.manifesto-right p{
+  font-size:16px;line-height:1.8;color:#3A4A3C;margin-bottom:24px;
+}
+.manifesto-right p:last-child{margin-bottom:0}
+.manifesto-quote{
+  border-left:2px solid var(--forest-accent);padding-left:24px;margin:32px 0;
+}
+.manifesto-quote p{
+  font-family:var(--font-serif);font-size:20px;font-style:italic;
+  font-weight:300;color:var(--forest-accent);line-height:1.5;
+}
+
+/* ── DIVIDER ── */
+.section-divider{height:1px;background:var(--border-light);margin:0 6vw}
+
+/* ── PILLARS ── */
+.pillars{padding:80px 6vw;max-width:1200px;margin:0 auto}
+.pillars-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.section-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--forest-accent)}
+.section-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,42px);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--ink);margin-top:8px}
+.pillars-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+.pillar{
+  background:var(--paper-warm);padding:40px 36px;
+  border:1px solid var(--border-light);
+  transition:background 0.2s;position:relative;overflow:hidden;
+}
+.pillar:hover{background:var(--cream)}
+.pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--forest-accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s ease}
+.pillar:hover::before{transform:scaleX(1)}
+.pillar-num{
+  font-family:var(--font-display);font-size:56px;font-weight:900;
+  line-height:1;color:rgba(26,74,42,0.08);letter-spacing:-0.02em;
+  position:absolute;top:24px;right:28px;
+}
+.pillar-icon{
+  font-size:24px;margin-bottom:20px;
+  width:48px;height:48px;background:var(--paper-warm);
+  border:1px solid var(--border-light);display:flex;align-items:center;justify-content:center;
+  border-radius:0;
+}
+.pillar h3{font-family:var(--font-display);font-size:22px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink);margin-bottom:12px}
+.pillar p{font-size:14px;line-height:1.75;color:#4A5A4C}
+
+/* ── SPECS ── */
+.specs-wrap{background:var(--ink);padding:80px 6vw}
+.specs{max-width:1200px;margin:0 auto}
+.specs-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.specs-title{font-family:var(--font-display);font-size:clamp(28px,3.5vw,42px);font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--paper)}
+.specs-sub{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(246,243,236,0.3)}
+.specs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(246,243,236,0.06)}
+.spec-item{
+  background:var(--ink);padding:28px 32px;
+  border-bottom:1px solid rgba(246,243,236,0.06);
+}
+.spec-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(246,243,236,0.3);margin-bottom:8px}
+.spec-value{font-family:var(--font-display);font-size:clamp(18px,2.5vw,26px);font-weight:600;color:var(--paper);letter-spacing:0.02em;line-height:1.2}
+.spec-value em{color:var(--green);font-style:normal}
+
+/* ── LOCATION ── */
+.location{padding:80px 6vw;max-width:1200px;margin:0 auto}
+.location-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:center}
+.location-content .section-eyebrow{margin-bottom:8px}
+.location-content h2{
+  font-family:var(--font-serif);font-size:clamp(28px,3.5vw,46px);
+  font-weight:300;line-height:1.2;color:var(--ink);margin-bottom:28px;
+}
+.location-content h2 strong{font-weight:600}
+.location-content p{font-size:15px;line-height:1.8;color:#3A4A3C;margin-bottom:20px}
+.location-visual{
+  background:var(--ink);aspect-ratio:4/3;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.location-visual-inner{
+  position:relative;z-index:1;text-align:center;padding:32px;
+}
+.location-coords{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.12em;
+  color:var(--green);margin-bottom:16px;
+}
+.location-name{
+  font-family:var(--font-display);font-size:32px;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.08em;color:var(--paper);
+}
+.location-sub{font-size:13px;color:rgba(246,243,236,0.4);margin-top:8px;font-family:var(--font-mono);letter-spacing:0.08em}
+.location-grid-bg{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(61,186,124,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(61,186,124,0.06) 1px,transparent 1px);
+  background-size:30px 30px;
+}
+.location-glow{
+  position:absolute;bottom:30%;left:50%;transform:translateX(-50%);
+  width:200px;height:100px;
+  background:radial-gradient(ellipse,rgba(61,186,124,0.2) 0%,transparent 70%);
+}
+
+/* ── BURGАС 2032 ── */
+.burgас-section{
+  background:var(--forest-deep);padding:80px 6vw;
+  border-top:1px solid var(--border-dark);
+  border-bottom:1px solid var(--border-dark);
+}
+.burgas-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.burgas-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--green);margin-bottom:16px}
+.burgas-title{
+  font-family:var(--font-display);font-size:clamp(28px,4vw,52px);
+  font-weight:800;text-transform:uppercase;letter-spacing:0.04em;
+  color:var(--text-light);line-height:1;margin-bottom:8px;
+}
+.burgas-year{color:var(--green)}
+.burgas-body p{font-size:15px;line-height:1.8;color:rgba(212,232,216,0.65);margin-bottom:16px}
+.burgas-themes{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.theme-tag{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;
+  text-transform:uppercase;padding:6px 14px;
+  border:1px solid var(--border-dark);color:var(--green);
+  background:var(--green-faint);
+}
+
+/* ── FOOTER / CTA ── */
+.footer-cta{
+  background:var(--forest);padding:80px 6vw 48px;
+  position:relative;
+}
+.footer-cta::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(to right,transparent,var(--green),transparent);
+}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-main{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:64px;gap:40px;flex-wrap:wrap}
+.footer-left h2{
+  font-family:var(--font-display);font-size:clamp(36px,6vw,80px);
+  font-weight:900;text-transform:uppercase;letter-spacing:-0.01em;
+  color:var(--text-light);line-height:0.9;margin-bottom:24px;
+}
+.footer-left h2 span{color:var(--green)}
+.footer-left p{font-size:15px;color:rgba(212,232,216,0.5);max-width:420px;line-height:1.7}
+.footer-contact{text-align:right}
+.footer-contact-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted-dark);margin-bottom:8px}
+.footer-contact-email{font-family:var(--font-serif);font-size:20px;color:var(--green);font-style:italic}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border-dark);padding-top:24px;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-logo{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:0.12em;color:var(--green);text-transform:uppercase}
+.footer-copy{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted-dark)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted-dark);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--green)}
+
+/* ── FADE IN ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero-eyebrow{animation:fadeUp 0.8s ease 0.1s both}
+.hero-title{animation:fadeUp 0.8s ease 0.2s both}
+.hero-tagline{animation:fadeUp 0.8s ease 0.35s both}
+.hero-cta{animation:fadeUp 0.8s ease 0.5s both}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .manifesto-grid,.location-grid,.burgas-inner{grid-template-columns:1fr}
+  .pillars-grid{grid-template-columns:1fr}
+  .specs-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-bottom{flex-wrap:wrap;gap:24px}
+  .band-item{min-width:140px}
+  .footer-main{flex-direction:column}
+  .footer-contact{text-align:left}
+}
+@media(max-width:480px){
+  .specs-grid{grid-template-columns:1fr}
+  .pillars-header,.specs-top{flex-direction:column;align-items:flex-start;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="glass-lines">
+    <div class="glass-line"></div><div class="glass-line"></div>
+    <div class="glass-line"></div><div class="glass-line"></div>
+    <div class="glass-line"></div><div class="glass-line"></div>
+  </div>
+  <div class="hero-glow"></div>
+
+  <nav class="hero-nav">
+    <div class="hero-logo">Gym Box</div>
+    <div class="hero-badge">Бургас 2032 · Магазия'32</div>
+  </nav>
+
+  <div class="hero-main">
+    <div class="hero-eyebrow">Социален Павилион за Здраве</div>
+    <h1 class="hero-title">
+      GYM<br>
+      <span class="hero-title-outline">BOX</span>
+    </h1>
+    <p class="hero-tagline">Фитнесът, какъвто не го познавате — пълноценна силова тренировка под открито небе, сред природата на Бургас.</p>
+    <div class="hero-cta">
+      <a href="#concept" class="btn-primary">Разгледай концепцията</a>
+      <a href="#contact" class="btn-ghost">Свържи се с нас</a>
+    </div>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-stat">
+      <div class="hero-stat-num">28 м²</div>
+      <div class="hero-stat-label">Функционална площ</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">Net Zero</div>
+      <div class="hero-stat-label">Въглероден отпечатък</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">24/7</div>
+      <div class="hero-stat-label">Автономен достъп</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">2028+</div>
+      <div class="hero-stat-label">Хоризонт на реализация</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPECS BAND ── -->
+<div class="band">
+  <div class="band-inner">
+    <div class="band-item">
+      <div class="band-item-label">Размери на модула</div>
+      <div class="band-item-value">10 × 3.2 × 3 м</div>
+      <div class="band-item-sub">Дължина · Ширина · Височина</div>
+    </div>
+    <div class="band-item">
+      <div class="band-item-label">Енергиен модел</div>
+      <div class="band-item-value">Соларен + Мрежа</div>
+      <div class="band-item-sub">Хибридна фотоволтаична система</div>
+    </div>
+    <div class="band-item">
+      <div class="band-item-label">Достъп</div>
+      <div class="band-item-value">QR / Дигитален ключ</div>
+      <div class="band-item-sub">Умна система за резервации</div>
+    </div>
+    <div class="band-item">
+      <div class="band-item-label">Локация</div>
+      <div class="band-item-value">Морска Градина</div>
+      <div class="band-item-sub">Бургас, България</div>
+    </div>
+    <div class="band-item">
+      <div class="band-item-label">Стъкло</div>
+      <div class="band-item-value">Low-E Панорамно</div>
+      <div class="band-item-sub">3 от 4 стени — остъклени</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MANIFESTO ── -->
+<section class="light" id="concept">
+  <div class="manifesto">
+    <div class="manifesto-grid">
+      <div class="manifesto-left">
+        <div class="manifesto-label">Концепция</div>
+        <h2>Спортът като<br><em>диалог с природата</em></h2>
+      </div>
+      <div class="manifesto-right">
+        <p>Gym Box преобръща тривиалната представа за фитнес зала. Вместо затворено помещение в бетонна сграда, трениращият провежда пълноценна силова тренировка в панорамно остъклен павилион — заобиколен от зеленината на Морската градина, под открито небе.</p>
+
+        <div class="manifesto-quote">
+          <p>"Полезното и приятното в едно — силова тренировка сред природата, без да жертваш нищо от оборудването."</p>
+        </div>
+
+        <p>Павилионът не е просто спортна инфраструктура. Той е активна точка в социално-културната екосистема на Бургас — излъчва данни за екологичния си отпечатък, анонси за събитията на Бургас 2032 и платформа за дигитално изкуство. Тялото и духът се развиват заедно, в синхрон с природата и с града.</p>
+
+        <p>Физическото и духовно развитие нямат крайна дестинация. Тази безсрочност прави концепцията на Gym Box практически неизчерпаема — жизнеспособна далеч отвъд 2032 г.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- ── PILLARS ── -->
+  <div class="pillars">
+    <div class="pillars-header">
+      <div>
+        <div class="section-eyebrow">Иновации</div>
+        <div class="section-title">Четирите стълба</div>
+      </div>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <div class="pillar-icon">⚡</div>
+        <h3>Net Zero Енергия</h3>
+        <p>Покривна фотоволтаична система с хибридна връзка към градската мрежа. Хиперинверторна климатична инсталация с рекуперация. Целта е нулев въглероден отпечатък на годишна база — павилионът не само се разполага сред природата, но активно я опазва.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <div class="pillar-icon">📱</div>
+        <h3>Умна Автономност</h3>
+        <p>Онлайн система за резервации, достъпна 24/7. Индивидуален QR код или дигитален ключ автоматично отключва модула и активира осветлението и климатизацията. Никакъв персонал на място — пълна автономност на операцията.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <div class="pillar-icon">🔳</div>
+        <h3>Панорамно Остъкляване</h3>
+        <p>Три от четирите стени са остъклени с High-Tech Low-E стъкло — отлична термоизолация при максимална визуална прозрачност. Трениращият е физически вътре, но психологически — навън, сред природата. Това е същността на концепцията.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <div class="pillar-icon">📺</div>
+        <h3>Дигитален Прозорец</h3>
+        <p>Четвъртата структурна стена е интегрирана с външно LED табло. Данни за качеството на въздуха, екологичния отпечатък на модула, дигитално изкуство и анонси за програмата на Бургас 2032. Gym Box не е просто фитнес — той е медия за общността.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECHNICAL SPECS ── -->
+<div class="specs-wrap">
+  <div class="specs">
+    <div class="specs-top">
+      <div class="specs-title">Оборудване</div>
+      <div class="specs-sub">Без компромиси</div>
+    </div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-label">Мултифункционален уред 1</div>
+        <div class="spec-value">Primal Performance<br><em>Series V2 Half Rack</em></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Мултифункционален уред 2</div>
+        <div class="spec-value">Primal Performance<br><em>125kg Pin-Select Dual</em></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Свободни тежести</div>
+        <div class="spec-value">Дъмбели<br><em>2.5 кг → 75 кг</em></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Лостове</div>
+        <div class="spec-value">2 Олимпийски лоста<br><em>+ дискове</em></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Пейки</div>
+        <div class="spec-value">2 Регулируеми пейки<br><em>Мulti-angle</em></div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Подова настилка</div>
+        <div class="spec-value">Антишок<br><em>Специализирана</em></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── LOCATION ── -->
+<section class="light">
+  <div class="location">
+    <div class="location-grid">
+      <div class="location-content">
+        <div class="section-eyebrow">Локация</div>
+        <h2><strong>Морска Градина,</strong><br>Бургас</h2>
+        <p>Приоритетната локация за разполагане на Gym Box е Морската градина — пространство, което въплъщава директно тематиката „От природа към култура към природа". Зеленината, морето и открития хоризонт осигуряват максимален визуален и концептуален ефект.</p>
+        <p>Високият пешеходен трафик на Морската градина гарантира естествена видимост на LED дисплея и органично привличане на нови потребители — жители на Бургас, студенти и туристи.</p>
+        <p>Концепцията допуска гъвкавост при позициониране — включително зони около Пристанище Бургас и други атрактивни открити пространства в общината.</p>
+      </div>
+      <div class="location-visual">
+        <div class="location-grid-bg"></div>
+        <div class="location-glow"></div>
+        <div class="location-visual-inner">
+          <div class="location-coords">42°29'35"N · 27°28'12"E</div>
+          <div class="location-name">Морска<br>Градина</div>
+          <div class="location-sub">Бургас · България</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── БУРГАС 2032 ── -->
+<section class="burgас-section">
+  <div class="burgas-inner">
+    <div>
+      <div class="burgas-label">Европейска Столица на Културата</div>
+      <div class="burgas-title">БУРГАС<br><span class="burgas-year">2032</span></div>
+    </div>
+    <div class="burgas-body">
+      <p>Gym Box е проектна идея, подадена в рамките на процедурата Магазия'32 — инициативата на Фондация „Бургас 2032" за набиране на творчески и артистични проекти за кандидатурата на Бургас за Европейска столица на културата.</p>
+      <p>Павилионът за здраве позиционира Бургас като иновативен, зелен и мислещ напред европейски град — в синхрон с нарастващата тенденция за интегриране на устойчива инфраструктура и здравословен начин на живот в публичното пространство.</p>
+      <div class="burgas-themes">
+        <span class="theme-tag">От природа към култура към природа</span>
+        <span class="theme-tag">Никой не остава назад</span>
+        <span class="theme-tag">Net Zero</span>
+        <span class="theme-tag">Дигитална иновация</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER / CTA ── -->
+<section class="footer-cta" id="contact">
+  <div class="footer-inner">
+    <div class="footer-main">
+      <div class="footer-left">
+        <h2>ГОТОВ<br>ДА<br><span>ТРЕНИРА<br>ШЕ?</span></h2>
+        <p>Gym Box е концепция в развитие. Ако искате да научите повече, да обсъдим партньорство или да споделите идеи — свържете се с нас.</p>
+      </div>
+      <div class="footer-contact">
+        <div class="footer-contact-label">Контакт</div>
+        <div class="footer-contact-email">Николай Благьов</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">Gym Box</div>
+      <div class="footer-copy">© 2026 Gym Box · Бургас, България</div>
+      <div class="footer-links">
+        <a href="#concept">Концепция</a>
+        <a href="#contact">Контакт</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
